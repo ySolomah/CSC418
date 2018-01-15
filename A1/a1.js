@@ -283,6 +283,15 @@ function drawPenguin(ctx)
     rotationAboutPoint(head_angle, head_joint_offset),
     translateByOffset(head_offset)
   );
+
+  // Beak, translate
+  var beak_origin = [-90, 0];
+  var beak_offset = [0, mouth_gap];
+  var lower_beak_offset = [0, 30];
+  var beakRotate = rotationAboutPoint(head_angle, head_joint_offset);
+  var beak_T = translateByOffset([beak_origin[0], beak_origin[1]]);
+  var lower_beak_T = translateByOffset([lower_beak_offset[0] + beak_offset[0], lower_beak_offset[1] + beak_offset[1]]);
+
  
   // Transform and draw the head in a hierarchical fashion
   // That is, if the body moves, then the head will move with it.
@@ -296,6 +305,19 @@ function drawPenguin(ctx)
   drawCircle(ctx, head_joint[0], head_joint[1], head_joint_r);
 
   /* Draw the rest of the penguin below. */
+
+  // Draw upper beak
+  upper_beak_poly = transformPolygon(upper_beak_poly, beak_T);
+  upper_beak_poly = transformPolygon(upper_beak_poly, head_T);
+  upper_beak_poly = transformPolygon(upper_beak_poly, torso_T);
+  drawPolygon(ctx, upper_beak_poly);
+
+  // Draw lower beak
+  lower_beak_poly = transformPolygon(lower_beak_poly, beak_T);
+  lower_beak_poly = transformPolygon(lower_beak_poly, head_T);
+  lower_beak_poly = transformPolygon(lower_beak_poly, torso_T);
+  lower_beak_poly = transformPolygon(lower_beak_poly, lower_beak_T);
+  drawPolygon(ctx, lower_beak_poly);
   
   
 }
