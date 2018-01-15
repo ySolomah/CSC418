@@ -89,7 +89,15 @@ function drawPolygon(ctx, poly)
 {
   /** Fill in your answer here **/
   // Hint: call drawLineSegment to help you
-  
+  for (var i = 0; i < poly.length; i++) {
+  	drawLineSegment(ctx,
+  					poly[i%poly.length][0],
+  					poly[i%poly.length][1],
+    				poly[(i+1)%poly.length][0],
+  					poly[(i+1)%poly.length][1]
+  					);
+  }
+  return;
 }
 
 /**
@@ -103,7 +111,9 @@ function transformPolygon(poly, T)
 {
   /** Fill in your answer here **/
   // Hint: call transformPoint to help you
-  
+  for (var i = 0; i < poly.length; i++) {
+  	poly[i] = transformPoint(poly[i], T);
+  }
   return poly;
 }
 
@@ -119,7 +129,16 @@ function drawCircle(ctx, cx, cy, r)
 {
   /** Fill in your answer here **/
   // Hint: call drawLineSegment to help you
-  
+  incrementAngle = 45;
+  for (var i = 0; i <= 360; i += incrementAngle) {
+  	drawLineSegment(ctx,
+  					cx + (r * Math.cos(i * Math.PI / 180)),
+  					cy + (r * Math.sin(i * Math.PI / 180)),
+  					cx + (r * Math.cos((i+incrementAngle) * Math.PI / 180)),
+  					cy + (r * Math.sin((i+incrementAngle) * Math.PI / 180))
+  					);
+  }
+  return;
 }
 
 /**
@@ -138,6 +157,9 @@ function translateByOffset(offset)
   ];
 
   /** Fill in your answer here **/
+
+  T[0][2] = offset[0];
+  T[1][2] = offset[1];
   
   
   return T;
@@ -160,6 +182,22 @@ function rotationAboutPoint(angle, joint)
   /** Fill in your answer here **/
   // Hint: Use Math.cos() and Math.sin()
  
+  var T1 = [
+  	[1, 0, -joint[0]],
+  	[0, 1, -joint[1]]
+  ];
+
+  var T2 = [
+  	[Math.cos(angle), -Math.sin(angle), 0],
+  	[Math.sin(angle), Math.cos(angle), 0]
+  ];
+
+  var T3 = [
+  	[1, 0, joint[0]],
+  	[0, 1, joint[1]]
+  ];
+
+  T = composeTransforms(composeTransforms(T1, T2), T3)
  
   return T;
 }
