@@ -292,6 +292,23 @@ function drawPenguin(ctx)
   var beak_T = translateByOffset([beak_origin[0], beak_origin[1]]);
   var lower_beak_T = translateByOffset([lower_beak_offset[0] + beak_offset[0], lower_beak_offset[1] + beak_offset[1]]);
 
+
+  // eye, translate
+  var eye_iris_T = translateByOffset([-20, -20]);
+
+  // arm joint disp
+  var joint_disp = [40, -20];
+  var joint_disp_T = translateByOffset([arm_joint[0] + joint_disp[0], arm_joint[1] + joint_disp[1]]);
+
+
+  // arm, rotate and translate
+  var arm_offset = [0, 40];
+  var arm_disp = [0, 20];
+  var arm_disp_T = translateByOffset(arm_disp);
+  var arm_T = composeTransforms(
+  	translateByOffset([arm_joint[0] + arm_offset[0] + joint_disp[0], arm_joint[1] + arm_offset[1] + joint_disp[1]]),
+  	rotationAboutPoint(arm_angle, [arm_joint[0] + joint_disp[0], arm_joint[1] + joint_disp[1]])
+  );
  
   // Transform and draw the head in a hierarchical fashion
   // That is, if the body moves, then the head will move with it.
@@ -313,12 +330,31 @@ function drawPenguin(ctx)
   drawPolygon(ctx, upper_beak_poly);
 
   // Draw lower beak
+  lower_beak_poly = transformPolygon(lower_beak_poly, lower_beak_T);
   lower_beak_poly = transformPolygon(lower_beak_poly, beak_T);
   lower_beak_poly = transformPolygon(lower_beak_poly, head_T);
   lower_beak_poly = transformPolygon(lower_beak_poly, torso_T);
-  lower_beak_poly = transformPolygon(lower_beak_poly, lower_beak_T);
   drawPolygon(ctx, lower_beak_poly);
+
+  // eye and iris
+  eye = transformPoint(eye, eye_iris_T);
+  iris = transformPoint(iris, eye_iris_T);
+  eye = transformPoint(eye, head_T);
+  eye = transformPoint(eye, torso_T);
+  iris = transformPoint(iris, head_T);
+  iris = transformPoint(iris, torso_T);
+  drawCircle(ctx, eye[0], eye[1], eye_r);
+  drawCircle(ctx, iris[0], iris[1], iris_r);
   
+  // arm
+  arm_poly = transformPolygon(arm_poly, arm_T);
+  arm_poly = transformPolygon(arm_poly, torso_T);
+  drawPolygon(ctx, arm_poly);
+
+  // arm joint
+  arm_joint = transformPoint(arm_joint, joint_disp_T);
+  arm_joint = transformPoint(arm_joint, torso_T);
+  drawCircle(ctx, arm_joint[0], arm_joint[1], arm_joint_r);
   
 }
 
