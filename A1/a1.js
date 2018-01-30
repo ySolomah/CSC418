@@ -129,7 +129,7 @@ function drawCircle(ctx, cx, cy, r)
 {
   /** Fill in your answer here **/
   // Hint: call drawLineSegment to help you
-  incrementAngle = 45;
+  incrementAngle = 15;
   for (var i = 0; i <= 360; i += incrementAngle) {
   	drawLineSegment(ctx,
   					cx + (r * Math.cos(i * Math.PI / 180)),
@@ -356,7 +356,7 @@ function drawPenguin(ctx)
   arm_joint = transformPoint(arm_joint, torso_T);
   drawCircle(ctx, arm_joint[0], arm_joint[1], arm_joint_r);
 
-  // first hip
+  // left hip
   var leg_disp = [0, 40];
   var hip_joint_1_disp = [0, 0];
   var leg_disp_T = translateByOffset(leg_disp);
@@ -364,6 +364,7 @@ function drawPenguin(ctx)
   var hip_left_disp = [-50, 120];
   var hip_left_disp_T = translateByOffset(hip_left_disp);
 
+  // left leg
   var leg_poly_copy = leg_poly.slice();
   leg_poly = transformPolygon(leg_poly, leg_disp_T);
   leg_poly = transformPolygon(leg_poly, hip_angle_1_T);
@@ -371,12 +372,15 @@ function drawPenguin(ctx)
   leg_poly = transformPolygon(leg_poly, hip_left_disp_T)
   drawPolygon(ctx, leg_poly);
 
+  // hip joint
   hip_joints[0] = transformPoint(hip_joints[0], torso_T);
   hip_joints[0] = transformPoint(hip_joints[0], hip_left_disp_T);
   drawCircle(ctx, hip_joints[0][0], hip_joints[0][1], hip_joint_r);
 
+  // copy foot poly for right leg
   var foot_poly_copy = foot_poly.slice();
 
+  // foot poly transforms
   var ankle_1_angle = ankle_angles[0];
   var ankle_1_angle_T = rotationAboutPoint(ankle_1_angle, ankle_joints[0]);
   var foot_offset = [-40, 0];
@@ -384,6 +388,7 @@ function drawPenguin(ctx)
   foot_poly = transformPolygon(foot_poly, foot_offset_T);
   foot_poly = transformPolygon(foot_poly, ankle_1_angle_T);
 
+  // ankle joint
   var ankle_joint_1_disp = [0, 40];
   var ankle_joint_1_disp_T = translateByOffset(ankle_joint_1_disp);
   ankle_joints[0] = transformPoint(ankle_joints[0], ankle_joint_1_disp_T)
@@ -393,6 +398,7 @@ function drawPenguin(ctx)
   ankle_joints[0] = transformPoint(ankle_joints[0], hip_left_disp_T);
   drawCircle(ctx, ankle_joints[0][0], ankle_joints[0][1], ankle_joint_r);
 
+  // draw foot poly
   foot_poly = transformPolygon(foot_poly, ankle_joint_1_disp_T);
   foot_poly = transformPolygon(foot_poly, leg_disp_T);
   foot_poly = transformPolygon(foot_poly, hip_angle_1_T);
@@ -400,8 +406,8 @@ function drawPenguin(ctx)
   foot_poly = transformPolygon(foot_poly, hip_left_disp_T);
   drawPolygon(ctx, foot_poly);
 
-  // NEXT LEG
 
+  // left hip
   hip_angle_1_T = rotationAboutPoint(hip_angles[1], [hip_joint_1_disp[0] + hip_joints[1][0], hip_joint_1_disp[1] + hip_joints[1][1]]);
 
   leg_poly = leg_poly_copy;
@@ -410,7 +416,7 @@ function drawPenguin(ctx)
   var leg_offset = [120, 0];
   var leg_offset_T = translateByOffset(leg_offset);
 
-
+  // leg poly
   leg_poly = transformPolygon(leg_poly, leg_disp_T);
   leg_poly = transformPolygon(leg_poly, hip_angle_1_T);
   leg_poly = transformPolygon(leg_poly, torso_T);
@@ -418,13 +424,13 @@ function drawPenguin(ctx)
   leg_poly = transformPolygon(leg_poly, leg_offset_T);
   drawPolygon(ctx, leg_poly);
 
+  // hip joint
   hip_joints[1] = transformPoint(hip_joints[1], torso_T);
   hip_joints[1] = transformPoint(hip_joints[1], hip_left_disp_T);
   hip_joints[1] = transformPoint(hip_joints[1], leg_offset_T);
   drawCircle(ctx, hip_joints[1][0], hip_joints[1][1], hip_joint_r);
 
-  var foot_poly_copy = foot_poly.slice();
-
+  // transform foot poly
   var ankle_1_angle = ankle_angles[1];
   var ankle_1_angle_T = rotationAboutPoint(ankle_1_angle, ankle_joints[1]);
   var foot_offset = [-40, 0];
@@ -432,6 +438,7 @@ function drawPenguin(ctx)
   foot_poly = transformPolygon(foot_poly, foot_offset_T);
   foot_poly = transformPolygon(foot_poly, ankle_1_angle_T);
 
+  // ankle joint
   var ankle_joint_1_disp = [0, 40];
   var ankle_joint_1_disp_T = translateByOffset(ankle_joint_1_disp);
   ankle_joints[1] = transformPoint(ankle_joints[1], ankle_joint_1_disp_T)
@@ -442,6 +449,7 @@ function drawPenguin(ctx)
   ankle_joints[1] = transformPoint(ankle_joints[1], leg_offset_T);
   drawCircle(ctx, ankle_joints[1][0], ankle_joints[1][1], ankle_joint_r);
 
+  // draw foot poly
   foot_poly = transformPolygon(foot_poly, ankle_joint_1_disp_T);
   foot_poly = transformPolygon(foot_poly, leg_disp_T);
   foot_poly = transformPolygon(foot_poly, hip_angle_1_T);
@@ -449,9 +457,6 @@ function drawPenguin(ctx)
   foot_poly = transformPolygon(foot_poly, hip_left_disp_T);
   foot_poly = transformPolygon(foot_poly, leg_offset_T);
   drawPolygon(ctx, foot_poly);
-
-  // END NEXT LEG
-
 }
 
 
