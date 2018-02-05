@@ -22,12 +22,35 @@ uniform vec3 diffuseColor;
 uniform vec3 specularColor;
 uniform vec3 lightPos; // Light position in camera space
 
+varying vec3 light;
 
 void main(){
   // Your solution should go here.
   // Only the ambient colour calculations have been provided as an example.
 
+  vec3 worldNormal = normalize(mat3(normalMat) * normal);
+
+  vec3 lightVec = normalize(lightPos - worldPosition);
+  vec3 viewVec = normalize(eyePos - worldPosition);
+
+  float lambertCoeff = dot(lightVec, worldNormal);
+  if(lambertCoeff < 0.0) {
+  	lambertCoeff = 0.0;
+  }
+
+  vec3 ambientLight = ambientColor * vec3(Ka);
+  vec3 diffusiveLight = vec3(Kd) * diffuseColor * vec3(lambertCoeff);
+  vec3 specularLight = vec3(0.0);
+
+  if(lambertCoeff > 0.0) {
+  	vec3 reflectionVec = -normalize(reflect(lightVec, worldNormal));
+  	float cosPhi = dot(reflectionVec, viewVec);
+  	if(cosPhi < 0.0) {
+  		cosPhi = 0.0;
+  	}
+  	specularLight = vec3(Ks) * specularColor * pow(cosPhi, shininessVal);
+  }
   vec4 vertPos4 = modelview * vec4(position, 1.0);
   gl_Position = projection * vertPos4;
-  color = vec4(ambientColor, 1.0); 
+  light = ambientLight + diffusiveLight + specularLight;
 }
