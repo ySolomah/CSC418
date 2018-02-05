@@ -13,5 +13,8 @@ varying vec3 viewVec; // Vector from the eye to the vertex
 void main() {
   // Your solution should go here.
   vec4 vertPos4 = modelview * vec4(position, 1.0);
+  vertPos = vec3(vertPos4);
+  normalInterp = normalize(mat3(normalMat) * normal);
+  viewVec = normalize(eyePos - worldPosition);
   gl_Position = projection * vertPos4;
 }
