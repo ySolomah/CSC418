@@ -45,8 +45,8 @@ void main() {
 
   vec3 specularLight = vec3(Ks) * vec3(pow(rDotV, shininessVal)) * specularColor;
 
-  float specularIntensity = dot(specularLight, normal);
-  if(specularIntensity > 0.85) {
+  float specularIntensity = dot(specularLight, vec3(0.33, 0.33, 0.33));
+  if(specularIntensity > 0.5) {
     specularLight += vec3(2048);
     specularLight = specularLight / vec3(16);
     specularLight = specularLight / vec3(255);
