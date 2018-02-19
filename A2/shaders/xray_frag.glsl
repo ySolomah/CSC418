@@ -1,9 +1,10 @@
-precision mediump float; // It is required to set a floating point precision in all fragment shaders.
+precision highp float; // It is required to set a floating point precision in all fragment shaders.
 
 // Interpolated values from vertex shader
 varying vec3 normalInterp; // Normal
 varying vec3 vertPos; // Vertex position
 varying vec3 viewVec; // Interpolated view vector
+varying float vertDotVal;
 
 // uniform values remain the same across the scene
 uniform float Ka;   // Ambient reflection coefficient
@@ -22,5 +23,5 @@ void main() {
   // Your solution should go here.
   
   // The model is currently rendered in black
-  gl_FragColor = vec4(vec3(0.0), 1.0);
+  gl_FragColor = vec4(vec3(0.7, 0.7, 0.01), mix(1.0, 0.3, pow(abs(vertDotVal), 1.0)));
 }
