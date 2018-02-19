@@ -1,4 +1,5 @@
 precision mediump float; // It is required to set a floating point precision in all fragment shaders.
+#define M_PI 3.1415926535897932384626433832795
 
 // Interpolated values from vertex shader
 varying vec3 normalInterp; // Normal
@@ -25,5 +26,6 @@ uniform sampler2D uSampler;	// A GLSL sampler represents a single texture. A sam
 void main() {
   // Your solution should go here.
   // The model is currently rendered in black
-  gl_FragColor = vec4(vec3(0.0), 1.0);
+  vec2 mapping = vec2(texCoordInterp.x, 1.0 - texCoordInterp.y);
+  gl_FragColor = texture2D(uSampler, mapping);
 }

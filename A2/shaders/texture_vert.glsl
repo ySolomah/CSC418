@@ -15,5 +15,7 @@ varying highp vec2 texCoordInterp;
 void main() {
   // Your solution should go here.
   vec4 vertPos4 = modelview * vec4(position, 1.0);
+  vertPos = worldPosition;
+  texCoordInterp = texCoord;
   gl_Position = projection * vertPos4;
 }
