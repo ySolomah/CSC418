@@ -30,8 +30,12 @@ void main(){
 
   vec3 worldNormal = normalize(mat3(normalMat) * normal);
 
-  vec3 lightVec = normalize(lightPos - worldPosition);
-  vec3 viewVec = normalize(eyePos - worldPosition);
+  vec4 vertPos4 = modelview * vec4(position, 1.0);
+  vertPos = vec3(vertPos4);
+
+
+  vec3 lightVec = normalize(lightPos - vertPos);
+  vec3 viewVec = normalize(-vertPos);
 
   float lambertCoeff = dot(lightVec, worldNormal);
   if(lambertCoeff < 0.0) {
@@ -43,6 +47,7 @@ void main(){
   vec3 specularLight = vec3(0.0);
 
   if(lambertCoeff > 0.0) {
+
   	vec3 reflectionVec = -normalize(reflect(lightVec, worldNormal));
   	float cosPhi = dot(reflectionVec, viewVec);
   	if(cosPhi < 0.0) {
@@ -50,7 +55,6 @@ void main(){
   	}
   	specularLight = vec3(Ks) * specularColor * pow(cosPhi, shininessVal);
   }
-  vec4 vertPos4 = modelview * vec4(position, 1.0);
   gl_Position = projection * vertPos4;
   light = ambientLight + diffusiveLight + specularLight;
 }
