@@ -54,25 +54,25 @@ void main() {
     specularLight = vec3(0.0, 0.0, 0.0);
   }
 
-  vec4 totalLight = vec4(ambientLight + diffuseLight + specularLight, 1.0);
+  vec4 totalLight = vec4(ambientLight + diffuseLight + specularLight , 1.0);
   float reduction = 1.0;
-  if(lambertCoeff > 0.95) {
+  if(lambertCoeff > 0.85) {
   	reduction = 1.0;
   	totalLight = vec4(reduction) * totalLight;
   } else if(lambertCoeff > 0.7) {
-  	reduction = 0.8;
+  	reduction = 0.9;
   	totalLight = vec4(vec3(reduction), 1.0) * totalLight;
   } else if(lambertCoeff > 0.5) {
   	reduction = 0.7;
   	totalLight = vec4(vec3(reduction), 1.0) * totalLight;
   } else if(lambertCoeff > 0.2) {
-  	reduction = 0.5;
+  	reduction = 0.6;
   	totalLight = vec4(vec3(reduction), 1.0) * totalLight;
   } else if(lambertCoeff > 0.1) {
-  	reduction = 0.3;
+  	reduction = 0.55;
   	totalLight = vec4(vec3(reduction), 1.0) * totalLight;
   } else {
-  	reduction = 0.1;
+  	reduction = 0.4;
   	totalLight = vec4(vec3(reduction), 1.0) * totalLight;
   }
 

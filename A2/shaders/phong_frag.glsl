@@ -11,6 +11,7 @@ uniform float Kd;   // Diffuse reflection coefficient
 uniform float Ks;   // Specular reflection coefficient
 uniform float shininessVal; // Shininess
 
+
 // Material color
 uniform vec3 ambientColor;
 uniform vec3 diffuseColor;
@@ -23,7 +24,7 @@ void main() {
   // Only the ambient colour calculations have been provided as an example.
   vec3 normal = normalize(normalInterp);
   vec3 lightVec = normalize(lightPos - vertPos);
-  vec3 viewVec = normalize(-vertPos);
+  vec3 viewVec = normalize( - vertPos);
 
   float lambertCoeff = dot(lightVec, normal);
   if(lambertCoeff < 0.0) {

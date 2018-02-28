@@ -35,7 +35,7 @@ void main(){
 
 
   vec3 lightVec = normalize(lightPos - vertPos);
-  vec3 viewVec = normalize(-vertPos);
+  vec3 viewVec = normalize(eyePos - vertPos);
 
   float lambertCoeff = dot(lightVec, worldNormal);
   if(lambertCoeff < 0.0) {
