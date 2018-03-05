@@ -24,14 +24,6 @@ uniform vec3 lightPos; // Light position in camera space
 
 uniform sampler2D uSampler;	// 2D sampler for the earth texture
 
-float beckmannDistribution(float x, float roughness) {
-  float NdotH = max(x, 0.0001);
-  float cos2Alpha = NdotH * NdotH;
-  float tan2Alpha = (cos2Alpha - 1.0) / cos2Alpha;
-  float roughness2 = roughness * roughness;
-  float denom = 3.141592653589793 * roughness2 * cos2Alpha * cos2Alpha;
-  return exp(tan2Alpha / roughness2) / denom;
-}
 
 
 void main() {
@@ -81,10 +73,14 @@ void main() {
   	specWeight = 1.0;
   }
 
-  float beckmannWeight = beckmannDistribution(halfNorm, 0.2);
+  float halfNormMax = max(halfNorm, 0.001);
+  float wOne = pow(halfNormMax, 2.0);
+  float wTwo = (wOne - 1.0) / wOne;
+  float roughness = 0.1;
+  float normalizeWeight = 3.1415 * roughness * pow(wOne, 2.0);
+  float beckmannWeight = exp(wTwo / roughness) / normalizeWeight;
 
-
-  float fresnelWeight = pow(1.0 - viewNorm, shininessVal);
+  float fresnelWeight = pow(1.0 - viewNorm, 0.7);
 
   float finalScale = 3.14159 * viewNorm * lambertCoeff;
 
