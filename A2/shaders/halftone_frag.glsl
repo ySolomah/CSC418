@@ -33,7 +33,8 @@ void main() {
   }
 
   vec3 ambientLight = ambientColor * vec3(Ka);
-  vec3 diffuseLight = diffuseColor * vec3(Kd) * vec3(lambertCoeff);
+  vec3 diffuseLight = diffuseColor * vec3(Kd) ;
+  vec3 size = vec3(lambertCoeff);
 
   vec3 refVec = vec3(2.0) * vec3(dot(lightVec, normal)) * normal - lightVec;
 
@@ -48,9 +49,9 @@ void main() {
 
   vec2 coords = vec2(gl_FragCoord.xy);
   vec3 black = vec3(0.0, 0.0, 0.0);
-  float frequency = 0.1;
+  float frequency = 0.12;
   vec2 nearest = 2.0*fract(frequency * coords) - 1.0;
   float dist = length(nearest);
-  float radius = 1.2 - length(ambientLight + diffuseLight + specularLight - black) * 0.9;
-  gl_FragColor = vec4(mix(black, ambientLight + diffuseLight + specularLight, step(radius, dist)), 1.0);
+  float radius = 1.2 - length( 0.7*lambertCoeff - black) * 0.9;
+  gl_FragColor = vec4(mix(black, ambientLight + diffuseLight, step(radius, dist)), 1.0);
 }
