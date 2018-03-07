@@ -23,5 +23,5 @@ void main() {
   // Your solution should go here.
   
   // The model is currently rendered in black
-  gl_FragColor = vec4(vec3(0.7, 0.7, 0.01), mix(1.0, 0.3, pow(abs(vertDotVal), 1.0)));
+  gl_FragColor = vec4(Ka * ambientColor + Kd * diffuseColor, 1.0 - abs(vertDotVal));
 }
