@@ -15,9 +15,8 @@ varying float vertDotVal;
 void main() {
   // Your solution should go here.
   normalInterp = normalize(mat3(normalMat) * normal);
-  viewVec = normalize(eyePos - worldPosition);
   vec4 vertPos4 = modelview * vec4(position, 1.0);
   vertPos = vec3(vertPos4);
-  vertDotVal = dot(vertPos, normalInterp);
+  vertDotVal = dot(normalize(vertPos), normalInterp);
   gl_Position = projection * vertPos4;
 }
